@@ -1,0 +1,19 @@
+; ElliottWaveBot preset — EURUSD H4
+; Conservative defaults tuned for major-FX H4 trading.
+InpZZDepth=12
+InpZZDeviation=5
+InpZZBackstep=3
+InpHistoryBars=1500
+InpMaxPivots=12
+InpMinConfidence=65
+InpRequireAllRules=true
+InpAllowW4ToW5=true
+InpAllowEndOfC=true
+InpRiskPercent=0.5
+InpMinRR=1.5
+InpSLBufferPoints=50
+InpAutoTrade=false
+InpShowHUD=true
+InpHUDX=12
+InpHUDY=32
+InpMagic=730501

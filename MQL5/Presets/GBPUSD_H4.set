@@ -1,0 +1,19 @@
+; ElliottWaveBot preset — GBPUSD H4
+; Slightly looser ZigZag because cable swings are wider.
+InpZZDepth=14
+InpZZDeviation=8
+InpZZBackstep=3
+InpHistoryBars=1500
+InpMaxPivots=12
+InpMinConfidence=60
+InpRequireAllRules=true
+InpAllowW4ToW5=true
+InpAllowEndOfC=true
+InpRiskPercent=0.5
+InpMinRR=1.5
+InpSLBufferPoints=80
+InpAutoTrade=false
+InpShowHUD=true
+InpHUDX=12
+InpHUDY=32
+InpMagic=730502

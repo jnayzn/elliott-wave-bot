@@ -1,0 +1,43 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  basic-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify MQL5 file structure
+        run: |
+          test -f MQL5/Experts/ElliottWaveBot.mq5
+          test -d MQL5/Include/ElliottWave
+          for f in ZigZagDetector FiboRatios WaveCounter TradeSetup RiskManager HUDPanel; do
+            test -f "MQL5/Include/ElliottWave/${f}.mqh" || { echo "missing $f"; exit 1; }
+          done
+          echo "MQL5 layout OK"
+
+      - name: Reject obvious syntax issues
+        run: |
+          set -e
+          # Every .mq5/.mqh must declare strict mode.
+          for f in $(find MQL5 -name '*.mq5' -o -name '*.mqh'); do
+            grep -q '#property strict' "$f" || { echo "::error file=$f::missing #property strict"; exit 1; }
+          done
+          # Header guards on every .mqh
+          for f in $(find MQL5/Include -name '*.mqh'); do
+            grep -q '#ifndef __EWB_' "$f" || { echo "::error file=$f::missing header guard"; exit 1; }
+            grep -q '#endif'         "$f" || { echo "::error file=$f::missing endif"; exit 1; }
+          done
+          echo "syntax sanity checks passed"
+
+      - name: Verify documentation
+        run: |
+          for f in README.md docs/ELLIOTT_RULES.md docs/INSTALLATION.md docs/STRATEGY.md docs/INPUTS.md LICENSE; do
+            test -f "$f" || { echo "missing $f"; exit 1; }
+          done
+          echo "docs OK"
